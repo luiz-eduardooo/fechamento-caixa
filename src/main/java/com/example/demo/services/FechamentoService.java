@@ -1,6 +1,10 @@
 package com.example.demo.services;
 
+import com.example.demo.dtos.GastoRequestDTO;
+import com.example.demo.enums.StatusCaixa;
+import com.example.demo.exceptions.CaixaJaFechadoException;
 import com.example.demo.exceptions.FechamentoJaCriadoException;
+import com.example.demo.exceptions.FechamentoNaoEncontradoException;
 import com.example.demo.repositories.FechamentoRepository;
 import com.example.demo.dtos.FechamentoRequestDTO;
 import com.example.demo.dtos.FechamentoResponseDTO;
@@ -9,6 +13,7 @@ import com.example.demo.entities.Fechamento;
 import com.example.demo.entities.Gasto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,12 +24,15 @@ public class FechamentoService {
 
     private final FechamentoRepository repository;
 
+
+    @Transactional
     public FechamentoResponseDTO criarFechamento(FechamentoRequestDTO dto){
-        if(repository.existsByData(LocalDate.now())){
+        LocalDate hoje = LocalDate.now();
+        if(repository.existsByData(hoje)){
             throw new FechamentoJaCriadoException("Ja foi criado um fechamento para esse dia.");
         }
         Fechamento fechamento = new Fechamento();
-        fechamento.setData(LocalDate.now());
+        fechamento.setData(hoje);
         fechamento.setTotalCredito(dto.totalCredito());
         fechamento.setTotalPix(dto.totalPix());
         fechamento.setTotalVendas(dto.totalVendas());
@@ -32,6 +40,26 @@ public class FechamentoService {
         fechamento.setObservacao(dto.observacao());
         Fechamento fechamentoSalvo = repository.save(fechamento);
         return toResponseDTO(fechamentoSalvo);
+    }
+    @Transactional
+    public FechamentoResponseDTO fecharCaixa(Long id){
+        Fechamento fechamento = procurarFechamento(id);
+        validarFechamento(fechamento);
+        fechamento.setStatus(StatusCaixa.FECHADO);
+        Fechamento fechamentoSalvo = repository.save(fechamento);
+        return toResponseDTO(fechamentoSalvo);
+    }
+
+    @Transactional
+    public GastoResponseDTO adicionarGastos(Long id, GastoRequestDTO dto){
+        Fechamento fechamento = procurarFechamento(id);
+        validarFechamento(fechamento);
+        Gasto gasto = new Gasto();
+        gasto.setTipoGasto(dto.tipoGasto());
+        gasto.setValorGasto(dto.valorGasto());
+        fechamento.addGasto(gasto);
+        repository.save(fechamento);
+        return gastoResponseDTO(gasto);
     }
 
     private FechamentoResponseDTO toResponseDTO(Fechamento fechamento){
@@ -44,6 +72,16 @@ public class FechamentoService {
     }
     private GastoResponseDTO gastoResponseDTO(Gasto gasto){
         return new GastoResponseDTO(gasto.getId(), gasto.getTipoGasto(), gasto.getValorGasto());
+    }
+
+    private Fechamento procurarFechamento(Long id){
+        return repository.findById(id).orElseThrow(()-> new FechamentoNaoEncontradoException("Esse fechamento não foi encontrado na base de dados."));
+    }
+
+    private void validarFechamento(Fechamento fechamento){
+        if(fechamento.getStatus() != StatusCaixa.ABERTO){
+            throw new CaixaJaFechadoException("Esse caixa foi fechado ou cancelado!");
+        }
     }
 
 }
