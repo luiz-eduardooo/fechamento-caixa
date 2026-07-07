@@ -62,6 +62,21 @@ public class FechamentoService {
         return gastoResponseDTO(gasto);
     }
 
+    @Transactional(readOnly = true)
+    public List<FechamentoResponseDTO> verTodosFechamentos(){
+        return repository.findAll().stream().map((this::toResponseDTO)).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public FechamentoResponseDTO verFechamento(Long id){
+        return toResponseDTO(procurarFechamento(id));
+    }
+
+    @Transactional(readOnly = true)
+    public FechamentoResponseDTO verFechamentoDiario(){
+        Fechamento fechamento = repository.findByData(LocalDate.now()).orElseThrow(()-> new FechamentoJaCriadoException("Já foi criado um fechamento nesse dia."));
+        return toResponseDTO(fechamento);
+    }
     private FechamentoResponseDTO toResponseDTO(Fechamento fechamento){
         return new FechamentoResponseDTO(fechamento.getId(), fechamento.getStatus(), gastoResponseDTOList(fechamento.getGastos()), fechamento.getTotalPix(), fechamento.getTotalCredito(), fechamento.getTotalDebito(), fechamento.getTotalVendas(), fechamento.getObservacao(), fechamento.getData(), fechamento.getDinheiroSubido(), fechamento.getDinheiroEsperado(), fechamento.getTotalGastos());
     }
