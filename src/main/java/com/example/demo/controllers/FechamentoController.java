@@ -47,4 +47,9 @@ public class FechamentoController {
     public ResponseEntity<FechamentoResponseDTO> verFechamentoDiario(){
         return ResponseEntity.ok(service.verFechamentoDiario());
     }
+
+    @DeleteMapping("/{idFechamento}/gasto/{idGasto}")
+    public ResponseEntity<FechamentoResponseDTO> deletarGasto(@PathVariable Long idFechamento, @PathVariable Long idGasto){
+        return ResponseEntity.status(200).body(service.removerGastos(idFechamento, idGasto));
+    }
 }

@@ -50,6 +50,17 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
+    @ExceptionHandler(ValoresInvalidosException.class)
+    public ResponseEntity<ApiError> valorInvalido(ValoresInvalidosException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 
     @ExceptionHandler(CaixaJaFechadoException.class)
     public ResponseEntity<ApiError> caixaJaFechado(CaixaJaFechadoException ex, HttpServletRequest request){

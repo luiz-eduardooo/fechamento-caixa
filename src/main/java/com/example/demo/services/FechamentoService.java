@@ -2,10 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.dtos.GastoRequestDTO;
 import com.example.demo.enums.StatusCaixa;
-import com.example.demo.exceptions.CaixaJaFechadoException;
-import com.example.demo.exceptions.FechamentoJaCriadoException;
-import com.example.demo.exceptions.FechamentoNaoEncontradoException;
-import com.example.demo.exceptions.GastoNaoEncontradoException;
+import com.example.demo.exceptions.*;
 import com.example.demo.repositories.FechamentoRepository;
 import com.example.demo.dtos.FechamentoRequestDTO;
 import com.example.demo.dtos.FechamentoResponseDTO;
@@ -17,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +33,7 @@ public class FechamentoService {
         if(repository.existsByData(hoje)){
             throw new FechamentoJaCriadoException("Ja foi criado um fechamento para esse dia.");
         }
+        validarValores(dto);
         Fechamento fechamento = new Fechamento();
         fechamento.setData(hoje);
         fechamento.setTotalCredito(dto.totalCredito());
@@ -114,5 +113,12 @@ public class FechamentoService {
 
     private Gasto procurarGasto(Fechamento fechamento, Long idGasto){
         return fechamento.getGastos().stream().filter(g-> g.getId().equals(idGasto)).findFirst().orElseThrow(()-> new GastoNaoEncontradoException("Esse gasto não foi encontrado na base de dados!"));
+    }
+
+    private void validarValores(FechamentoRequestDTO dto){
+        BigDecimal soma = dto.totalCredito().add(dto.totalDebito()).add(dto.totalPix());
+        if(soma.compareTo(dto.totalVendas()) > 0){
+            throw new ValoresInvalidosException("Confira os valores, a soma da maquininha está maior que o valor total vendido.");
+        }
     }
 }
