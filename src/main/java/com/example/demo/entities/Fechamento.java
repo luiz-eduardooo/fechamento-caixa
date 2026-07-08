@@ -54,11 +54,15 @@ public class Fechamento {
         return getDinheiroEsperado().subtract(getTotalGastos());
     }
 
+    public void removeGasto(Gasto g){
+        gastos.remove(g);
+        g.setFechamento(null);
+    }
+
     @Transient
-    public Fechamento addGasto(Gasto g){
+    public void addGasto(Gasto g){
         g.setFechamento(this);
         gastos.add(g);
-        return this;
     }
 
 }

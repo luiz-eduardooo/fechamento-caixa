@@ -5,24 +5,28 @@ import com.example.demo.enums.StatusCaixa;
 import com.example.demo.exceptions.CaixaJaFechadoException;
 import com.example.demo.exceptions.FechamentoJaCriadoException;
 import com.example.demo.exceptions.FechamentoNaoEncontradoException;
+import com.example.demo.exceptions.GastoNaoEncontradoException;
 import com.example.demo.repositories.FechamentoRepository;
 import com.example.demo.dtos.FechamentoRequestDTO;
 import com.example.demo.dtos.FechamentoResponseDTO;
 import com.example.demo.dtos.GastoResponseDTO;
 import com.example.demo.entities.Fechamento;
 import com.example.demo.entities.Gasto;
+import com.example.demo.repositories.GastoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FechamentoService {
 
     private final FechamentoRepository repository;
+    private final GastoRepository gastoRepository;
 
 
     @Transactional
@@ -58,8 +62,17 @@ public class FechamentoService {
         gasto.setTipoGasto(dto.tipoGasto());
         gasto.setValorGasto(dto.valorGasto());
         fechamento.addGasto(gasto);
+        Gasto gastoSalvo = gastoRepository.save(gasto);
+        return gastoResponseDTO(gastoSalvo);
+    }
+
+    public FechamentoResponseDTO removerGastos(Long idFechamento, Long idGasto){
+        Fechamento fechamento = procurarFechamento(idFechamento);
+        validarFechamento(fechamento);
+        Gasto gasto = procurarGasto(fechamento, idGasto);
+        fechamento.removeGasto(gasto);
         repository.save(fechamento);
-        return gastoResponseDTO(gasto);
+        return toResponseDTO(fechamento);
     }
 
     @Transactional(readOnly = true)
@@ -99,4 +112,7 @@ public class FechamentoService {
         }
     }
 
+    private Gasto procurarGasto(Fechamento fechamento, Long idGasto){
+        return fechamento.getGastos().stream().filter(g-> g.getId().equals(idGasto)).findFirst().orElseThrow(()-> new GastoNaoEncontradoException("Esse gasto não foi encontrado na base de dados!"));
+    }
 }

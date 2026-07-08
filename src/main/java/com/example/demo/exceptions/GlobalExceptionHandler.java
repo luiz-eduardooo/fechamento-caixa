@@ -26,6 +26,19 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(GastoNaoEncontradoException.class)
+    public ResponseEntity<ApiError> gastoNaoEncontrado(GastoNaoEncontradoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(FechamentoJaCriadoException.class)
     public ResponseEntity<ApiError> fechamentoJaCriado(FechamentoJaCriadoException ex, HttpServletRequest request){
         ApiError error = new ApiError(
