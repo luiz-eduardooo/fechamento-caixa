@@ -61,6 +61,17 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+    @ExceptionHandler(EmailJaCadastradoException.class)
+    public ResponseEntity<ApiError> emailJaCadastrado(EmailJaCadastradoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
 
     @ExceptionHandler(CaixaJaFechadoException.class)
     public ResponseEntity<ApiError> caixaJaFechado(CaixaJaFechadoException ex, HttpServletRequest request){
