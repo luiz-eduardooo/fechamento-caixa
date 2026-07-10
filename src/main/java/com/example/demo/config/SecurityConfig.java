@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize-> authorize.requestMatchers(HttpMethod.POST, "/fechamento").hasRole("VENDEDORA")
                         .requestMatchers(HttpMethod.GET,"/usuario/perfil/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/auth/cadastro").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/fechamento/*/abrir").hasRole("ADMIN")
                         .anyRequest().authenticated())

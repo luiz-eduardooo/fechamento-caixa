@@ -4,11 +4,13 @@ import com.example.demo.dtos.FechamentoRequestDTO;
 import com.example.demo.dtos.FechamentoResponseDTO;
 import com.example.demo.dtos.GastoRequestDTO;
 import com.example.demo.dtos.GastoResponseDTO;
+import com.example.demo.entities.Usuario;
 import com.example.demo.services.FechamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class FechamentoController {
     private final FechamentoService service;
 
     @PostMapping
-    public ResponseEntity<FechamentoResponseDTO> criarFechamento(@Valid @RequestBody FechamentoRequestDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.criarFechamento(dto));
+    public ResponseEntity<FechamentoResponseDTO> criarFechamento(@Valid @RequestBody FechamentoRequestDTO dto, @AuthenticationPrincipal Usuario userLogado){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.criarFechamento(dto, userLogado));
     }
 
     @PatchMapping("/{id}/fechar")

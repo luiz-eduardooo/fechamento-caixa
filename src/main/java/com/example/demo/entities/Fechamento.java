@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,22 @@ public class Fechamento {
     private StatusCaixa status = StatusCaixa.ABERTO;
     @Column
     private String observacao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
+
+    @Column(nullable = false)
+    private String criadoPor;
+
+    @Column(nullable = false)
+    @CreationTimestamp
+    private Instant createdAt;
+
+
+    @Column()
+    private Instant closedAt;
+
     @OneToMany(mappedBy = "fechamento",fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Gasto> gastos = new ArrayList<>();
 

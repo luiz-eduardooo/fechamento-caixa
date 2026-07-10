@@ -1,12 +1,10 @@
 package com.example.demo.services;
 
-import com.example.demo.dtos.GastoRequestDTO;
+import com.example.demo.dtos.*;
+import com.example.demo.entities.Usuario;
 import com.example.demo.enums.StatusCaixa;
 import com.example.demo.exceptions.*;
 import com.example.demo.repositories.FechamentoRepository;
-import com.example.demo.dtos.FechamentoRequestDTO;
-import com.example.demo.dtos.FechamentoResponseDTO;
-import com.example.demo.dtos.GastoResponseDTO;
 import com.example.demo.entities.Fechamento;
 import com.example.demo.entities.Gasto;
 import com.example.demo.repositories.GastoRepository;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class FechamentoService {
 
 
     @Transactional
-    public FechamentoResponseDTO criarFechamento(FechamentoRequestDTO dto){
+    public FechamentoResponseDTO criarFechamento(FechamentoRequestDTO dto, Usuario userLogado){
         LocalDate hoje = LocalDate.now();
         if(repository.existsByData(hoje)){
             throw new FechamentoJaCriadoException("Ja foi criado um fechamento para esse dia.");
@@ -41,6 +40,7 @@ public class FechamentoService {
         fechamento.setTotalVendas(dto.totalVendas());
         fechamento.setTotalDebito(dto.totalDebito());
         fechamento.setObservacao(dto.observacao());
+        fechamento.setUsuario(userLogado);
         Fechamento fechamentoSalvo = repository.save(fechamento);
         return toResponseDTO(fechamentoSalvo);
     }
@@ -49,6 +49,7 @@ public class FechamentoService {
         Fechamento fechamento = procurarFechamento(id);
         validarFechamento(fechamento);
         fechamento.setStatus(StatusCaixa.FECHADO);
+        fechamento.setClosedAt(Instant.now());
         Fechamento fechamentoSalvo = repository.save(fechamento);
         return toResponseDTO(fechamentoSalvo);
     }
@@ -64,7 +65,7 @@ public class FechamentoService {
         Gasto gastoSalvo = gastoRepository.save(gasto);
         return gastoResponseDTO(gastoSalvo);
     }
-
+    @Transactional
     public FechamentoResponseDTO removerGastos(Long idFechamento, Long idGasto){
         Fechamento fechamento = procurarFechamento(idFechamento);
         validarFechamento(fechamento);
@@ -86,7 +87,7 @@ public class FechamentoService {
 
     @Transactional(readOnly = true)
     public FechamentoResponseDTO verFechamentoDiario(){
-        Fechamento fechamento = repository.findByData(LocalDate.now()).orElseThrow(()-> new FechamentoJaCriadoException("Já foi criado um fechamento nesse dia."));
+        Fechamento fechamento = repository.findByData(LocalDate.now()).orElseThrow(()-> new FechamentoNaoEncontradoException("Não foi encontrado um fechamento nesse dia."));
         return toResponseDTO(fechamento);
     }
 
@@ -95,6 +96,7 @@ public class FechamentoService {
         Fechamento fechamento = procurarFechamento(id);
         validarAbertura(fechamento);
         fechamento.setStatus(StatusCaixa.ABERTO);
+        fechamento.setClosedAt(null);
         Fechamento fechamentoSalvo = repository.save(fechamento);
         return toResponseDTO(fechamentoSalvo);
     }
@@ -105,7 +107,7 @@ public class FechamentoService {
 
      // HELPERS //
     private FechamentoResponseDTO toResponseDTO(Fechamento fechamento){
-        return new FechamentoResponseDTO(fechamento.getId(), fechamento.getStatus(), gastoResponseDTOList(fechamento.getGastos()), fechamento.getTotalPix(), fechamento.getTotalCredito(), fechamento.getTotalDebito(), fechamento.getTotalVendas(), fechamento.getObservacao(), fechamento.getData(), fechamento.getDinheiroSubido(), fechamento.getDinheiroEsperado(), fechamento.getTotalGastos());
+        return new FechamentoResponseDTO(fechamento.getId(), fechamento.getCreatedAt(), fechamento.getClosedAt(), toUserResponseDTO(fechamento.getUsuario()), fechamento.getStatus(), gastoResponseDTOList(fechamento.getGastos()), fechamento.getTotalPix(), fechamento.getTotalCredito(), fechamento.getTotalDebito(), fechamento.getTotalVendas(), fechamento.getObservacao(), fechamento.getData(), fechamento.getDinheiroSubido(), fechamento.getDinheiroEsperado(), fechamento.getTotalGastos());
     }
 
 
@@ -141,5 +143,9 @@ public class FechamentoService {
         if(soma.compareTo(dto.totalVendas()) > 0){
             throw new ValoresInvalidosException("Confira os valores, a soma da maquininha está maior que o valor total vendido.");
         }
+    }
+
+    private CriadoPorDTO toUserResponseDTO(Usuario usuario){
+        return new CriadoPorDTO(usuario.getId(), usuario.getNome());
     }
 }

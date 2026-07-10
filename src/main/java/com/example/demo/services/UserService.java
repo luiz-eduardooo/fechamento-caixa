@@ -50,10 +50,12 @@ public class UserService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<UserResponseDTO> listarUsuarios(){
         return repository.findAll().stream().map(this::toResponseDTO).toList();
     }
 
+    @Transactional(readOnly = true)
     public UserResponseDTO verPerfil(UUID uuid, Usuario userLogado){
         if(userLogado.getId().equals(uuid)){
             return toResponseDTO(userLogado);
@@ -61,6 +63,7 @@ public class UserService {
         throw new UserForbiddenException("Erro ao ver perfil.");
     }
 
+    @Transactional(readOnly = true)
     public UserResponseDTO verUsuario(UUID id){
         Usuario usuario = procurarUsuarioPorId(id);
         return toResponseDTO(usuario);
