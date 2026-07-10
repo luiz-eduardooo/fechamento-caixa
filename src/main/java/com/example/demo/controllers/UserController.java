@@ -1,16 +1,10 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dtos.LoginResponseDTO;
-import com.example.demo.dtos.UserRequestCadastroDTO;
-import com.example.demo.dtos.UserRequestLoginDTO;
-import com.example.demo.dtos.UserResponseDTO;
+import com.example.demo.dtos.usuario.UserResponseDTO;
 import com.example.demo.entities.Usuario;
 import com.example.demo.services.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

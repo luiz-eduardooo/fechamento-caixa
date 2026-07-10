@@ -1,5 +1,6 @@
-package com.example.demo.dtos;
+package com.example.demo.dtos.fechamento;
 
+import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.enums.StatusCaixa;
 
 import java.math.BigDecimal;

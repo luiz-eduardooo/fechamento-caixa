@@ -1,10 +1,10 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.dtos.LoginResponseDTO;
-import com.example.demo.dtos.UserRequestCadastroDTO;
-import com.example.demo.dtos.UserRequestLoginDTO;
-import com.example.demo.dtos.UserResponseDTO;
+import com.example.demo.dtos.usuario.LoginResponseDTO;
+import com.example.demo.dtos.usuario.UserRequestCadastroDTO;
+import com.example.demo.dtos.usuario.UserRequestLoginDTO;
+import com.example.demo.dtos.usuario.UserResponseDTO;
 import com.example.demo.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

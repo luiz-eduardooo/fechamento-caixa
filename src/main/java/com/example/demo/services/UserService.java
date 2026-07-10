@@ -1,14 +1,14 @@
 package com.example.demo.services;
 
 
-import com.example.demo.dtos.LoginResponseDTO;
-import com.example.demo.dtos.UserRequestCadastroDTO;
-import com.example.demo.dtos.UserRequestLoginDTO;
-import com.example.demo.dtos.UserResponseDTO;
+import com.example.demo.dtos.usuario.LoginResponseDTO;
+import com.example.demo.dtos.usuario.UserRequestCadastroDTO;
+import com.example.demo.dtos.usuario.UserRequestLoginDTO;
+import com.example.demo.dtos.usuario.UserResponseDTO;
 import com.example.demo.entities.Usuario;
-import com.example.demo.exceptions.EmailJaCadastradoException;
-import com.example.demo.exceptions.UserForbiddenException;
-import com.example.demo.exceptions.UsuarioNaoEncontradoException;
+import com.example.demo.exceptions.usuario.EmailJaCadastradoException;
+import com.example.demo.exceptions.usuario.UserForbiddenException;
+import com.example.demo.exceptions.usuario.UsuarioNaoEncontradoException;
 import com.example.demo.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

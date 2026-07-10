@@ -1,9 +1,9 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dtos.FechamentoRequestDTO;
-import com.example.demo.dtos.FechamentoResponseDTO;
-import com.example.demo.dtos.GastoRequestDTO;
-import com.example.demo.dtos.GastoResponseDTO;
+import com.example.demo.dtos.fechamento.FechamentoRequestDTO;
+import com.example.demo.dtos.fechamento.FechamentoResponseDTO;
+import com.example.demo.dtos.gasto.GastoRequestDTO;
+import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.entities.Usuario;
 import com.example.demo.services.FechamentoService;
 import jakarta.validation.Valid;

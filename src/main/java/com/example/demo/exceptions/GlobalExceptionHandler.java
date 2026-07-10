@@ -1,6 +1,10 @@
 package com.example.demo.exceptions;
 
-import com.example.demo.dtos.ApiError;
+import com.example.demo.dtos.exception.ApiError;
+import com.example.demo.exceptions.fechamento.*;
+import com.example.demo.exceptions.usuario.EmailJaCadastradoException;
+import com.example.demo.exceptions.usuario.UserForbiddenException;
+import com.example.demo.exceptions.usuario.UsuarioNaoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.example.demo.exceptions.usuario;
 
 public class UserForbiddenException extends RuntimeException {
     public UserForbiddenException(String message) {

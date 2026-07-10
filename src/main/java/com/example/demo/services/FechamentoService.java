@@ -1,9 +1,13 @@
 package com.example.demo.services;
 
-import com.example.demo.dtos.*;
+import com.example.demo.dtos.fechamento.CriadoPorDTO;
+import com.example.demo.dtos.fechamento.FechamentoRequestDTO;
+import com.example.demo.dtos.fechamento.FechamentoResponseDTO;
+import com.example.demo.dtos.gasto.GastoRequestDTO;
+import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.entities.Usuario;
 import com.example.demo.enums.StatusCaixa;
-import com.example.demo.exceptions.*;
+import com.example.demo.exceptions.fechamento.*;
 import com.example.demo.repositories.FechamentoRepository;
 import com.example.demo.entities.Fechamento;
 import com.example.demo.entities.Gasto;
@@ -16,7 +20,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
