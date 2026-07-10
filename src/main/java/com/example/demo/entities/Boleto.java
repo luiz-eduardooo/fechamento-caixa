@@ -41,5 +41,5 @@ public class Boleto {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusBoleto statusBoleto;
+    private StatusBoleto statusBoleto = StatusBoleto.PENDENTE;
 }

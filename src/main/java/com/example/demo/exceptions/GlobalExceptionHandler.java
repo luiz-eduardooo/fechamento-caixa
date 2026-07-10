@@ -1,6 +1,10 @@
 package com.example.demo.exceptions;
 
 import com.example.demo.dtos.exception.ApiError;
+import com.example.demo.exceptions.boleto.BoletoJaPagoException;
+import com.example.demo.exceptions.boleto.BoletoNaoEncontradoException;
+import com.example.demo.exceptions.boleto.BoletoPagoNaoPodeSerDeletadoException;
+import com.example.demo.exceptions.boleto.StatusInvalidoException;
 import com.example.demo.exceptions.fechamento.*;
 import com.example.demo.exceptions.usuario.EmailJaCadastradoException;
 import com.example.demo.exceptions.usuario.UserForbiddenException;
@@ -115,8 +119,33 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+
+    @ExceptionHandler(BoletoNaoEncontradoException.class)
+    public ResponseEntity<ApiError> boletoNaoEncontrado(BoletoNaoEncontradoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(CaixaJaFechadoException.class)
     public ResponseEntity<ApiError> caixaJaFechado(CaixaJaFechadoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(BoletoJaPagoException.class)
+    public ResponseEntity<ApiError> boletoJaPago(BoletoJaPagoException ex, HttpServletRequest request){
         ApiError error = new ApiError(
                 Instant.now(),
                 HttpStatus.CONFLICT.value(),
@@ -148,6 +177,30 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StatusInvalidoException.class)
+    public ResponseEntity<ApiError> statusInvalido(StatusInvalidoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(BoletoPagoNaoPodeSerDeletadoException.class)
+    public ResponseEntity<ApiError> boletoPagoNaoDeveSerDeletado(BoletoPagoNaoPodeSerDeletadoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
 }
