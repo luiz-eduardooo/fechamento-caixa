@@ -7,6 +7,8 @@ import com.example.demo.dtos.UserRequestLoginDTO;
 import com.example.demo.dtos.UserResponseDTO;
 import com.example.demo.entities.Usuario;
 import com.example.demo.exceptions.EmailJaCadastradoException;
+import com.example.demo.exceptions.UserForbiddenException;
+import com.example.demo.exceptions.UsuarioNaoEncontradoException;
 import com.example.demo.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,11 +50,31 @@ public class UserService {
     }
 
 
+    public List<UserResponseDTO> listarUsuarios(){
+        return repository.findAll().stream().map(this::toResponseDTO).toList();
+    }
+
+    public UserResponseDTO verPerfil(UUID uuid, Usuario userLogado){
+        if(userLogado.getId().equals(uuid)){
+            return toResponseDTO(userLogado);
+        }
+        throw new UserForbiddenException("Erro ao ver perfil.");
+    }
+
+    public UserResponseDTO verUsuario(UUID id){
+        Usuario usuario = procurarUsuarioPorId(id);
+        return toResponseDTO(usuario);
+    }
+
 
     private void verificarEmailUsuario(String email){
         if(repository.existsByEmail(email)){
             throw new EmailJaCadastradoException("Email ja existente!");
         }
+    }
+
+    private Usuario procurarUsuarioPorId(UUID id){
+        return repository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Esse usuário não foi encontrado na base de dados!"));
     }
 
     private Usuario procurarUsuario(String email){
