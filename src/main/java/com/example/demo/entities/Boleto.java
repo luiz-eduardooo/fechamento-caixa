@@ -24,7 +24,7 @@ public class Boleto {
     @Column(nullable = false)
     private String nomeFornecedor;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal valor;
 
     @Column(nullable = false)
