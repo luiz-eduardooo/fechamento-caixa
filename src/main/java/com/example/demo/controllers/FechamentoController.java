@@ -52,4 +52,9 @@ public class FechamentoController {
     public ResponseEntity<FechamentoResponseDTO> deletarGasto(@PathVariable Long idFechamento, @PathVariable Long idGasto){
         return ResponseEntity.status(200).body(service.removerGastos(idFechamento, idGasto));
     }
+
+    @PatchMapping("/{id}/abrir")
+    public ResponseEntity<FechamentoResponseDTO> reabrirCaixa(@PathVariable Long id){
+        return ResponseEntity.ok(service.reabrirCaixa(id));
+    }
 }

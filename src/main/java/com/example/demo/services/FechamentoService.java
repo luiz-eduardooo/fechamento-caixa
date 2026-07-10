@@ -89,6 +89,21 @@ public class FechamentoService {
         Fechamento fechamento = repository.findByData(LocalDate.now()).orElseThrow(()-> new FechamentoJaCriadoException("Já foi criado um fechamento nesse dia."));
         return toResponseDTO(fechamento);
     }
+
+    @Transactional
+    public FechamentoResponseDTO reabrirCaixa(Long id){
+        Fechamento fechamento = procurarFechamento(id);
+        validarAbertura(fechamento);
+        fechamento.setStatus(StatusCaixa.ABERTO);
+        Fechamento fechamentoSalvo = repository.save(fechamento);
+        return toResponseDTO(fechamentoSalvo);
+    }
+
+
+
+
+
+     // HELPERS //
     private FechamentoResponseDTO toResponseDTO(Fechamento fechamento){
         return new FechamentoResponseDTO(fechamento.getId(), fechamento.getStatus(), gastoResponseDTOList(fechamento.getGastos()), fechamento.getTotalPix(), fechamento.getTotalCredito(), fechamento.getTotalDebito(), fechamento.getTotalVendas(), fechamento.getObservacao(), fechamento.getData(), fechamento.getDinheiroSubido(), fechamento.getDinheiroEsperado(), fechamento.getTotalGastos());
     }
@@ -103,6 +118,12 @@ public class FechamentoService {
 
     private Fechamento procurarFechamento(Long id){
         return repository.findById(id).orElseThrow(()-> new FechamentoNaoEncontradoException("Esse fechamento não foi encontrado na base de dados."));
+    }
+
+    private void validarAbertura(Fechamento fechamento){
+        if(fechamento.getStatus() != StatusCaixa.ABERTO){
+            throw new CaixaJaAbertoException("Esse caixa ja está aberto!");
+        }
     }
 
     private void validarFechamento(Fechamento fechamento){

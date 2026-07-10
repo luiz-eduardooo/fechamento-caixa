@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class UserController {
     public ResponseEntity<List<UserResponseDTO>> listarUsuarios(){
         return ResponseEntity.ok(service.listarUsuarios());
     }
+
     @GetMapping("/perfil/{id}")
     public ResponseEntity<UserResponseDTO> verPerfil(@PathVariable UUID id, @AuthenticationPrincipal Usuario userLogado){
         return ResponseEntity.ok(service.verPerfil(id, userLogado));
