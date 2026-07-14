@@ -5,6 +5,7 @@ import com.example.demo.exceptions.boleto.BoletoJaPagoException;
 import com.example.demo.exceptions.boleto.BoletoNaoEncontradoException;
 import com.example.demo.exceptions.boleto.BoletoPagoNaoPodeSerDeletadoException;
 import com.example.demo.exceptions.boleto.StatusInvalidoException;
+import com.example.demo.exceptions.conferencia.ConferenciaNaoEncontradaException;
 import com.example.demo.exceptions.fechamento.*;
 import com.example.demo.exceptions.usuario.EmailJaCadastradoException;
 import com.example.demo.exceptions.usuario.UserForbiddenException;
@@ -122,6 +123,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BoletoNaoEncontradoException.class)
     public ResponseEntity<ApiError> boletoNaoEncontrado(BoletoNaoEncontradoException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(ConferenciaNaoEncontradaException.class)
+    public ResponseEntity<ApiError> conferenciaNaoEncontrada(ConferenciaNaoEncontradaException ex, HttpServletRequest request){
         ApiError error = new ApiError(
                 Instant.now(),
                 HttpStatus.NOT_FOUND.value(),

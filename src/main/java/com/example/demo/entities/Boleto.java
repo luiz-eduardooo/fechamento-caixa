@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -37,7 +39,7 @@ public class Boleto {
     private LocalDate dataChegada;
 
     @Column
-    private LocalDate dataPagamento;
+    private Instant dataPagamento;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

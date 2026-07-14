@@ -45,9 +45,6 @@ public class Fechamento {
     private Usuario usuario;
 
     @Column(nullable = false)
-    private String criadoPor;
-
-    @Column(nullable = false)
     @CreationTimestamp
     private Instant createdAt;
 
@@ -77,7 +74,6 @@ public class Fechamento {
         g.setFechamento(null);
     }
 
-    @Transient
     public void addGasto(Gasto g){
         g.setFechamento(this);
         gastos.add(g);

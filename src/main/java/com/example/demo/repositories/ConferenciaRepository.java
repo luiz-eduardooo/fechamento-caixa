@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface ConferenciaRepository extends JpaRepository<ConferenciaMensal, Long> {
-    Optional<ConferenciaMensal> findTopByOrderByDataConferenciaDesc();
+    Optional<ConferenciaMensal> findTopByOrderByConferidoEmDesc();
 }

@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +23,7 @@ public class ConferenciaMensal {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate dataConferencia;
+    private Instant conferidoEm;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal contagemFisica;

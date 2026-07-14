@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class BoletoService {
         Boleto boleto = procurarBoleto(id);
         validarBoleto(boleto);
         boleto.setStatusBoleto(statusBoleto);
-        boleto.setDataPagamento(LocalDate.now());
+        boleto.setDataPagamento(Instant.now());
         Boleto boletoSalvo = repository.save(boleto);
         return toResponseDTO(boletoSalvo);
     }
