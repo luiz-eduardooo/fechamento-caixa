@@ -1,17 +1,17 @@
 import { createContext, useContext, useState } from "react";
 import { keys } from "../keys/keys";
-import type { userType } from "../types/userType";
+import type { userLoginResponseDTO} from "../types/userType";
 
 const AuthContext:any = createContext(null);
 
 
 export function AuthProvider({children}:any){
-    const [usuario, setUsuario] = useState<userType | null>(() => {
+    const [usuario, setUsuario] = useState<userLoginResponseDTO | null>(() => {
     const usuarioSalvo = localStorage.getItem(keys.usuario);
     return usuarioSalvo ? JSON.parse(usuarioSalvo) : null;
   });
 
-    function entrar(dados:userType){
+    function entrar(dados:userLoginResponseDTO){
         setUsuario(dados)
         localStorage.setItem(keys.usuario, JSON.stringify(dados))
         localStorage.setItem(keys.token, dados.token)
