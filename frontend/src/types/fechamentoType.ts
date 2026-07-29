@@ -28,3 +28,11 @@ export type FechamentoResponse = {
   dinheiroEsperado: number;
   totalGastos: number;
 };
+
+export type FechamentoUpdate = {
+  totalVendas: number;
+  totalPix: number;
+  totalCredito: number;
+  totalDebito: number;
+  observacao: string;
+};
