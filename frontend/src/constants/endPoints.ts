@@ -19,7 +19,7 @@ export const ENDPOINTS = {
     fechamento:{
         criar:"/fechamento",
         fechar: (id:any)=>`/fechamento/${id}/fechar`,
-        criarGasto: (id:any)=>`/fechamento/${id}/gasto`,
+        gasto: (id:any)=>`/fechamento/${id}/gasto`,
         listar: "/fechamento",
         verUm: (id:any)=>`/fechamento/${id}`,
         verDiario:"/fechamento/hoje",
