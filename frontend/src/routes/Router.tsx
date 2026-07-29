@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import LoginComponent from "../components/auth/LoginComponent"
 import AuthenticateRoute from "./AuthenticateRoute"
-import CriarFechamentoComponent from "../components/api/CriarFechamentoComponent"
+import CriarFechamentoComponent from "../components/fechamento/CriarFechamentoComponent"
 
 const Router = () => {
   return (

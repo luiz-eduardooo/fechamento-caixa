@@ -12,7 +12,9 @@ const inputClass =
   "w-full rounded-xl border border-[#e7e8e3] bg-[#fafbf9] px-4 py-3 text-[#191b1a] " +
   "tabular-nums outline-none transition focus:border-[#1f5b58] focus:bg-white";
 
-const CriarFechamentoComponent = () => {
+
+type Props = { onCriado?: () => void };
+const CriarFechamentoComponent = ({onCriado}:Props) => {
   const [fechamento, setFechamento] = useState<fechamentoRequestDTO>(fechamentoInicial);
   const [error, setError] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -35,6 +37,7 @@ const CriarFechamentoComponent = () => {
       await criarFechamento(fechamento);
       setMensagem("Fechamento criado com sucesso!");
       setFechamento(fechamentoInicial);
+      onCriado?.();
     } catch (error: any) {
       if (error.response?.status === 409) {
         setError("Fechamento já criado no dia.");
