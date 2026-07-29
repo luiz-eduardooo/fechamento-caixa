@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.dtos.fechamento.FechamentoRequestDTO;
 import com.example.demo.dtos.fechamento.FechamentoResponseDTO;
+import com.example.demo.dtos.fechamento.FechamentoUpdateDTO;
 import com.example.demo.dtos.gasto.GastoRequestDTO;
 import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.entities.Usuario;
@@ -58,5 +59,9 @@ public class FechamentoController {
     @PatchMapping("/{id}/abrir")
     public ResponseEntity<FechamentoResponseDTO> reabrirCaixa(@PathVariable Long id){
         return ResponseEntity.ok(service.reabrirCaixa(id));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<FechamentoResponseDTO> modificarCaixa(@PathVariable Long id, @Valid @RequestBody FechamentoUpdateDTO dto){
+        return ResponseEntity.ok(service.modificarCaixa(id, dto));
     }
 }

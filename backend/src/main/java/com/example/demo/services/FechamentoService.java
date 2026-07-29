@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.dtos.fechamento.CriadoPorDTO;
 import com.example.demo.dtos.fechamento.FechamentoRequestDTO;
 import com.example.demo.dtos.fechamento.FechamentoResponseDTO;
+import com.example.demo.dtos.fechamento.FechamentoUpdateDTO;
 import com.example.demo.dtos.gasto.GastoRequestDTO;
 import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.entities.Usuario;
@@ -100,6 +101,18 @@ public class FechamentoService {
         validarAbertura(fechamento);
         fechamento.setStatus(StatusCaixa.ABERTO);
         fechamento.setClosedAt(null);
+        Fechamento fechamentoSalvo = repository.save(fechamento);
+        return toResponseDTO(fechamentoSalvo);
+    }
+
+    public FechamentoResponseDTO modificarCaixa(Long id, FechamentoUpdateDTO dto){
+        Fechamento fechamento = procurarFechamento(id);
+        validarFechamento(fechamento);
+        if(dto.observacao() != null) fechamento.setObservacao(dto.observacao());
+        if(dto.totalPix() != null) fechamento.setTotalPix(dto.totalPix());
+        if(dto.totalCredito() != null) fechamento.setTotalCredito(dto.totalCredito());
+        if(dto.totalDebito() != null) fechamento.setTotalDebito(dto.totalDebito());
+        if(dto.totalVendas() != null) fechamento.setTotalVendas(dto.totalVendas());
         Fechamento fechamentoSalvo = repository.save(fechamento);
         return toResponseDTO(fechamentoSalvo);
     }

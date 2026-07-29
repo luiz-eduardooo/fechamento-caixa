@@ -22,6 +22,7 @@ const FechamentoDoDia = () => {
   const [carregando, setCarregando] = useState(true);
   const [fechando, setFechando] = useState(false);
   const [erro, setErro] = useState("");
+  const [mostrarForm, setMostrarForm] = useState(false);
 
   const buscarFechamentoDoDia = async () => {
     setErro("");
@@ -65,10 +66,23 @@ const FechamentoDoDia = () => {
       {carregando ? (
         <p className="mt-8 text-sm text-[#8a8e86]">Carregando…</p>
       ) : fechamento == null ? (
-        <div className="mt-8">
-          <CriarFechamentoComponent onCriado={buscarFechamentoDoDia} />
-        </div>
-      ) : (
+  mostrarForm ? (
+    <div className="mt-8">
+      <CriarFechamentoComponent onCriado={buscarFechamentoDoDia} />
+    </div>
+  ) : (
+    <div className="mt-8 rounded-[20px] border border-dashed border-[#e7e8e3] bg-white p-10 text-center">
+      <p className="text-lg font-bold text-[#191b1a]">Nenhum caixa aberto hoje</p>
+      <p className="mt-1 text-sm text-[#8a8e86]">Abra o fechamento do dia para lançar as vendas e os gastos.</p>
+      <button
+        onClick={() => setMostrarForm(true)}
+        className="mt-6 rounded-xl bg-[#1f5b58] px-6 py-3 font-semibold text-white transition hover:bg-[#0f3b39]"
+      >
+        Abrir fechamento
+      </button>
+    </div>
+  )
+) : (
         <div className="mt-8 flex flex-col gap-6">
           <div className="rounded-[20px] border border-[#e7e8e3] bg-white p-6">
             <div className="flex items-center gap-2.5">

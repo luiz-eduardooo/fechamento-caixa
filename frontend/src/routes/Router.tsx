@@ -1,18 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import LoginComponent from "../components/auth/LoginComponent"
 import AuthenticateRoute from "./AuthenticateRoute"
-import CriarFechamentoComponent from "../components/fechamento/CriarFechamentoComponent"
+import FechamentoDoDia from "../components/fechamento/FechamentoDoDia"
 
 const Router = () => {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/login" element={<LoginComponent/>}></Route>
-      <Route element={<AuthenticateRoute/>}>
-      <Route path="/fechamento/criar" element={<CriarFechamentoComponent/>}/>
+      <Routes>
+        <Route path="/login" element={<LoginComponent />} />
 
-      </Route>
-    </Routes>
+        <Route element={<AuthenticateRoute />}>
+          <Route path="/" element={<FechamentoDoDia />} />
+          <Route path="/fechamento" element={<FechamentoDoDia />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }

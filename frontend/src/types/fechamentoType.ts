@@ -1,10 +1,10 @@
 import type { GastoResponse } from "./gastoType";
 
 export type fechamentoRequestDTO = {
-    pix:number,
-    debito:number,
-    credito:number,
-    total:number,
+    totalPix:number,
+    totalDebito:number,
+    totalCredito:number,
+    totalVendas:number,
     observacao:string
 }
 

@@ -4,7 +4,7 @@ import type { fechamentoRequestDTO } from "../../types/fechamentoType";
 import { criarFechamento } from "../../services/fechamentoService";
 
 const fechamentoInicial: fechamentoRequestDTO = {
-  debito: 0, pix: 0, total: 0, credito: 0, observacao: "",
+  totalDebito: 0, totalPix: 0, totalVendas: 0, totalCredito: 0, observacao: "",
 };
 
 // classe compartilhada dos inputs de dinheiro (mata a repetição)
@@ -55,14 +55,14 @@ const CriarFechamentoComponent = ({onCriado}:Props) => {
         onSubmit={handleSubmit}
         className="mx-auto w-full max-w-xl rounded-[20px] border border-[#e7e8e3] bg-white p-8 shadow-sm"
       >
-        <h1 className="text-2xl font-bold text-[#191b1a]">Fechar caixa</h1>
+        <h1 className="text-2xl font-bold text-[#191b1a]">Abrir caixa</h1>
         <p className="mt-1 text-sm text-[#8a8e86]">Informe os valores do dia.</p>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#71756e]">Total de vendas</label>
             <NumericFormat
-              value={fechamento.total} onValueChange={handleValor("total")}
+              value={fechamento.totalVendas} onValueChange={handleValor("totalVendas")}
               thousandSeparator="." decimalSeparator="," decimalScale={2}
               fixedDecimalScale prefix="R$ " allowNegative={false} className={inputClass}
             />
@@ -70,7 +70,7 @@ const CriarFechamentoComponent = ({onCriado}:Props) => {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#71756e]">Pix</label>
             <NumericFormat
-              value={fechamento.pix} onValueChange={handleValor("pix")}
+              value={fechamento.totalPix} onValueChange={handleValor("totalPix")}
               thousandSeparator="." decimalSeparator="," decimalScale={2}
               fixedDecimalScale prefix="R$ " allowNegative={false} className={inputClass}
             />
@@ -78,7 +78,7 @@ const CriarFechamentoComponent = ({onCriado}:Props) => {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#71756e]">Crédito</label>
             <NumericFormat
-              value={fechamento.credito} onValueChange={handleValor("credito")}
+              value={fechamento.totalCredito} onValueChange={handleValor("totalCredito")}
               thousandSeparator="." decimalSeparator="," decimalScale={2}
               fixedDecimalScale prefix="R$ " allowNegative={false} className={inputClass}
             />
@@ -86,7 +86,7 @@ const CriarFechamentoComponent = ({onCriado}:Props) => {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#71756e]">Débito</label>
             <NumericFormat
-              value={fechamento.debito} onValueChange={handleValor("debito")}
+              value={fechamento.totalDebito} onValueChange={handleValor("totalDebito")}
               thousandSeparator="." decimalSeparator="," decimalScale={2}
               fixedDecimalScale prefix="R$ " allowNegative={false} className={inputClass}
             />
@@ -106,7 +106,7 @@ const CriarFechamentoComponent = ({onCriado}:Props) => {
           type="submit" disabled={carregando}
           className="mt-8 w-full rounded-xl bg-[#1f5b58] py-3.5 font-semibold text-white transition hover:bg-[#0f3b39] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {carregando ? "Fechando..." : "Fechar caixa"}
+          {carregando ? "Abrindo..." : "Abrir caixa"}
         </button>
 
         {error && (
