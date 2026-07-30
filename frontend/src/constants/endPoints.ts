@@ -4,12 +4,12 @@ export const ENDPOINTS = {
         cadastro: "/auth/cadastro"
     },
     boleto: {
+        base: "/boleto",
         criar: "/boleto",
-        pagarDinheiro: (id: any) => `/boleto/${id}/pagar/dinheiro`,
-        pagarBanco: (id: any) => `/boleto/${id}/pagar/banco`,
-        listar: "/boleto",
-        verUmBoleto: (id: any) => `/boleto/${id}`,
-        deletar: (id: any) => `/boleto/${id}`
+        verPorId: (id: number) => `/boleto/${id}`,
+        pagarDinheiro: (id: number) => `/boleto/${id}/pagar/dinheiro`,
+        pagarBanco: (id: number) => `/boleto/${id}/pagar/banco`,
+        deletar: (id: number) => `/boleto/${id}`,
     },
     cofre: {
         criar: "/cofre",

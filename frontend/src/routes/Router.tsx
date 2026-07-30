@@ -3,6 +3,8 @@ import LoginComponent from "../components/auth/LoginComponent"
 import AuthenticateRoute from "./AuthenticateRoute"
 import AppLayout from "../components/layout/AppLayout"
 import FechamentoDoDia from "../components/fechamento/FechamentoDoDia"
+import HistoricoDetalhe from "../components/historico/HistoricoDetalhe"
+import HistoricoList from "../components/historico/HistoricoList"
 
 const Router = () => {
   return (
@@ -14,6 +16,8 @@ const Router = () => {
           <Route element={<AppLayout />}>
             <Route path="/" element={<FechamentoDoDia />} />
             <Route path="/fechamento" element={<FechamentoDoDia />} />
+            <Route path="/historico" element={<HistoricoList />} />
+            <Route path="/historico/:id" element={<HistoricoDetalhe />} />
           </Route>
         </Route>
       </Routes>
