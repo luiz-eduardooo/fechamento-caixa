@@ -6,6 +6,7 @@ import FechamentoDoDia from "../components/fechamento/FechamentoDoDia"
 import HistoricoDetalhe from "../components/historico/HistoricoDetalhe"
 import HistoricoList from "../components/historico/HistoricoList"
 import BoletosPage from "../components/boletos/BoletosPage"
+import CofrePage from "../components/cofre/CofrePage"
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
             <Route path="/historico" element={<HistoricoList />} />
             <Route path="/historico/:id" element={<HistoricoDetalhe />} />
             <Route path="/boletos" element={<BoletosPage />} />
+            <Route path="/cofre" element={<CofrePage />} />
           </Route>
         </Route>
       </Routes>

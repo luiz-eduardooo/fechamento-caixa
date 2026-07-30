@@ -23,7 +23,7 @@ export const ENDPOINTS = {
         verUm: (id: any) => `/fechamento/${id}`,
         hoje: "/fechamento/hoje",
         fechar: (id: number) => `/fechamento/${id}/fechar`,
-        abrirCaixa: (id: any) => `/fechamento/${id}/abrir`,
+        reabrir: (id: number) => `/fechamento/${id}/abrir`,
         editar: (id: number) => `/fechamento/${id}`,
         removerGasto: (fechamentoId: number, gastoId: number) => `/fechamento/${fechamentoId}/gasto/${gastoId}`,
         base: "/fechamento",

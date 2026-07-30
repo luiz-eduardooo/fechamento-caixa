@@ -37,3 +37,8 @@ export const verFechamento = async (id: number): Promise<FechamentoResponse> => 
   const response = await api.get<FechamentoResponse>(ENDPOINTS.fechamento.verPorId(id));
   return response.data;
 };
+
+export const reabrirCaixa = async (id: number): Promise<FechamentoResponse> => {
+  const response = await api.patch<FechamentoResponse>(ENDPOINTS.fechamento.reabrir(id), {});
+  return response.data;
+};

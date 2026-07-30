@@ -139,8 +139,8 @@ public class FechamentoService {
     }
 
     private void validarAbertura(Fechamento fechamento){
-        if(fechamento.getStatus() != StatusCaixa.ABERTO){
-            throw new CaixaJaAbertoException("Esse caixa ja está aberto!");
+        if(fechamento.getStatus() != StatusCaixa.FECHADO){
+            throw new CaixaJaAbertoException("Esse caixa ja está aberto ou foi cancelado!");
         }
     }
 
