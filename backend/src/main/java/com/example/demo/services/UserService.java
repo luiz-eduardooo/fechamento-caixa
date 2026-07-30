@@ -89,6 +89,6 @@ public class UserService {
     }
 
     private LoginResponseDTO toLoginResponseDTO(Usuario usuario, String token){
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token);
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, usuario.getRole());
     }
 }

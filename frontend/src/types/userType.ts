@@ -23,5 +23,6 @@ export type userLoginResponseDTO = {
     id:string,
     email:string,
     nome:string,
-    token:string
+    token:string,
+    role:string
 }
