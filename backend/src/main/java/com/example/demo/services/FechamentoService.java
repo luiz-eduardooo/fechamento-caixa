@@ -81,7 +81,7 @@ public class FechamentoService {
 
     @Transactional(readOnly = true)
     public List<FechamentoResponseDTO> verTodosFechamentos(){
-        return repository.findAll().stream().map((this::toResponseDTO)).toList();
+        return repository.findAllByOrderByDataDesc().stream().map((this::toResponseDTO)).toList();
     }
 
     @Transactional(readOnly = true)

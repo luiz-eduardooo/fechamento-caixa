@@ -12,5 +12,5 @@ public interface FechamentoRepository extends JpaRepository<Fechamento, Long> {
     public Optional<Fechamento> findByData(LocalDate data);
     public Boolean existsByData(LocalDate data);
     List<Fechamento> findAllByCreatedAtAfter(Instant createdAt);
-
+    List<Fechamento> findAllByOrderByDataDesc();
 }

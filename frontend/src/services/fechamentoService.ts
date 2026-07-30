@@ -27,3 +27,13 @@ export const removerGasto = async (fechamentoId: number, gastoId: number): Promi
   const response = await api.delete<FechamentoResponse>(ENDPOINTS.fechamento.removerGasto(fechamentoId, gastoId));
   return response.data;
 };
+
+export const verTodosFechamentos = async (): Promise<FechamentoResponse[]> => {
+  const response = await api.get<FechamentoResponse[]>(ENDPOINTS.fechamento.base);
+  return response.data;
+};
+
+export const verFechamento = async (id: number): Promise<FechamentoResponse> => {
+  const response = await api.get<FechamentoResponse>(ENDPOINTS.fechamento.verPorId(id));
+  return response.data;
+};
