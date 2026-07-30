@@ -26,3 +26,18 @@ export type userLoginResponseDTO = {
     token:string,
     role:string
 }
+
+export type UserRole = "ADMIN" | "VENDEDORA";
+
+export type UserResponse = {
+  id: string;
+  role: UserRole;
+  email: string;
+  nome: string;
+};
+
+export type CadastroRequest = {
+  email: string;
+  password: string;
+  nome: string;
+};

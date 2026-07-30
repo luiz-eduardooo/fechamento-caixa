@@ -7,6 +7,7 @@ import HistoricoDetalhe from "../components/historico/HistoricoDetalhe"
 import HistoricoList from "../components/historico/HistoricoList"
 import BoletosPage from "../components/boletos/BoletosPage"
 import CofrePage from "../components/cofre/CofrePage"
+import FuncionariosPage from "../components/auth/FuncionariosPage"
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
             <Route path="/historico/:id" element={<HistoricoDetalhe />} />
             <Route path="/boletos" element={<BoletosPage />} />
             <Route path="/cofre" element={<CofrePage />} />
+            <Route path="/funcionarios" element={<FuncionariosPage />} />
           </Route>
         </Route>
       </Routes>
