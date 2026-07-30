@@ -3,6 +3,7 @@ import { verFechamentoDiario, fecharCaixa } from "../../services/fechamentoServi
 import type { FechamentoResponse } from "../../types/fechamentoType";
 import CriarFechamentoComponent from "./CriarFechamentoComponent";
 import GastosDoDia from "./GastosDoDia";
+import EditarVendas from "./EditarVendas";
 
 const formatBRL = (v?: number) =>
   (v ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -23,6 +24,7 @@ const FechamentoDoDia = () => {
   const [fechando, setFechando] = useState(false);
   const [erro, setErro] = useState("");
   const [mostrarForm, setMostrarForm] = useState(false);
+  const [editando, setEditando] = useState(false);
 
   const buscarFechamentoDoDia = async () => {
     setErro("");
@@ -96,31 +98,47 @@ const FechamentoDoDia = () => {
             </p>
           </div>
 
-          <div className="rounded-[20px] border border-[#e7e8e3] bg-white p-6 sm:p-8">
-            <h2 className="text-lg font-bold text-[#191b1a]">Vendas do dia</h2>
-            <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
-              <Valor rotulo="Total de vendas" valor={fechamento.totalVendas} />
-              <Valor rotulo="Pix" valor={fechamento.totalPix} />
-              <Valor rotulo="Crédito" valor={fechamento.totalCredito} />
-              <Valor rotulo="Débito" valor={fechamento.totalDebito} />
-            </div>
-            {fechamento.observacao && (
-              <div className="mt-5">
-                <p className="text-sm font-medium text-[#71756e]">Observação</p>
-                <p className="mt-1 text-[#191b1a]">{fechamento.observacao}</p>
-              </div>
-            )}
-            <div className="mt-6 grid grid-cols-1 gap-4 border-t border-[#eef0ec] pt-6 sm:grid-cols-2">
-              <div className="rounded-xl bg-[#fafbf9] px-4 py-3">
-                <p className="text-sm text-[#8a8e86]">Dinheiro esperado</p>
-                <p className="mt-0.5 text-lg font-bold tabular-nums text-[#191b1a]">{formatBRL(fechamento.dinheiroEsperado)}</p>
-              </div>
-              <div className="rounded-xl bg-[#eaf3ec] px-4 py-3">
-                <p className="text-sm text-[#1c6b3f]">Sobe para o cofre</p>
-                <p className="mt-0.5 text-lg font-bold tabular-nums text-[#1c6b3f]">{formatBRL(fechamento.dinheiroSubido)}</p>
-              </div>
-            </div>
-          </div>
+          {aberto && editando ? (
+  <EditarVendas
+    fechamento={fechamento}
+    onSalvo={() => { setEditando(false); buscarFechamentoDoDia(); }}
+    onCancelar={() => setEditando(false)}
+  />
+) : (
+  <div className="rounded-[20px] border border-[#e7e8e3] bg-white p-6 sm:p-8">
+    <div className="flex items-center justify-between">
+      <h2 className="text-lg font-bold text-[#191b1a]">Vendas do dia</h2>
+      {aberto && (
+        <button onClick={() => setEditando(true)}
+          className="rounded-lg border border-[#e7e8e3] px-3 py-1.5 text-sm font-semibold text-[#1f5b58] transition hover:bg-[#fafbf9]">
+          Editar
+        </button>
+      )}
+    </div>
+    <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
+      <Valor rotulo="Total de vendas" valor={fechamento.totalVendas} />
+      <Valor rotulo="Pix" valor={fechamento.totalPix} />
+      <Valor rotulo="Crédito" valor={fechamento.totalCredito} />
+      <Valor rotulo="Débito" valor={fechamento.totalDebito} />
+    </div>
+    {fechamento.observacao && (
+      <div className="mt-5">
+        <p className="text-sm font-medium text-[#71756e]">Observação</p>
+        <p className="mt-1 text-[#191b1a]">{fechamento.observacao}</p>
+      </div>
+    )}
+    <div className="mt-6 grid grid-cols-1 gap-4 border-t border-[#eef0ec] pt-6 sm:grid-cols-2">
+      <div className="rounded-xl bg-[#fafbf9] px-4 py-3">
+        <p className="text-sm text-[#8a8e86]">Dinheiro esperado</p>
+        <p className="mt-0.5 text-lg font-bold tabular-nums text-[#191b1a]">{formatBRL(fechamento.dinheiroEsperado)}</p>
+      </div>
+      <div className="rounded-xl bg-[#eaf3ec] px-4 py-3">
+        <p className="text-sm text-[#1c6b3f]">Sobe para o cofre</p>
+        <p className="mt-0.5 text-lg font-bold tabular-nums text-[#1c6b3f]">{formatBRL(fechamento.dinheiroSubido)}</p>
+      </div>
+    </div>
+  </div>
+)}
 
           <GastosDoDia
             fechamentoId={fechamento.id}
