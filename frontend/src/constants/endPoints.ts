@@ -12,9 +12,9 @@ export const ENDPOINTS = {
         deletar: (id: number) => `/boleto/${id}`,
     },
     cofre: {
+        base: "/cofre",
         criar: "/cofre",
-        listar: "/cofre",
-        verUma: (id: any) => `/cofre/${id}`
+        verPorId: (id: number) => `/cofre/${id}`,
     },
     fechamento: {
         criar: "/fechamento",
