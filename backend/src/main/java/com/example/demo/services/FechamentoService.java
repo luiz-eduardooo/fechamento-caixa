@@ -1,9 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dtos.fechamento.CriadoPorDTO;
-import com.example.demo.dtos.fechamento.FechamentoRequestDTO;
-import com.example.demo.dtos.fechamento.FechamentoResponseDTO;
-import com.example.demo.dtos.fechamento.FechamentoUpdateDTO;
+import com.example.demo.dtos.fechamento.*;
 import com.example.demo.dtos.gasto.GastoRequestDTO;
 import com.example.demo.dtos.gasto.GastoResponseDTO;
 import com.example.demo.entities.Usuario;
@@ -118,7 +115,12 @@ public class FechamentoService {
     }
 
 
-
+    public ResumoVendasDTO resumoDeVendas(){
+        LocalDate hoje = LocalDate.now();
+        LocalDate inicio = hoje.withDayOfMonth(1);
+        LocalDate fim = hoje.withDayOfMonth(hoje.lengthOfMonth());
+        return repository.resumoVendasNoPeriodo(inicio, fim);
+    }
 
 
      // HELPERS //
